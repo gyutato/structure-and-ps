@@ -1,4 +1,4 @@
-#Linked List (feat. 재귀)
+# Linked List (feat. 재귀)
 
 - `Node`: 주로 value 와 next 필드를 가짐
 - `LinkedList`: head 필드를 가짐
