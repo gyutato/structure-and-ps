@@ -68,8 +68,6 @@ return prev;
   - 재귀 과정 전체의 조합 (X)
   - 특정 단계의 답(O)
     - ex. 베이스 조건 바로 위, 2단계 위, 3단계 위...
--
-
 ```js
 var reverseList = function (head) {
   // base case - 연결 리스트 자체가 비었거나, 현재 Node(인풋값 head)가 마지막 Node인 경우.
