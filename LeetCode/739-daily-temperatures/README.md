@@ -1,4 +1,4 @@
-l# Daily Temperatures
+# Daily Temperatures
 
 - Leetcode 739
 - monotonic stack (decreasing)
