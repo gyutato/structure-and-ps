@@ -6,38 +6,22 @@
 var isAnagram = function(s, t) {
     if (s.length !== t.length) return false
 
-    const hashS = {}
-    const hashT = {}
+    const freq = new Array(26).fill(0);
 
     for (let i = 0; i < s.length; i++) {
-        addHash(hashS, s[i])
-        addHash(hashT, t[i])
+        freq[calcCharIdx(s[i])]++
+        freq[calcCharIdx(t[i])]--
     }
 
-    const sortedS = sortedHash(hashS)
-    const sortedT = sortedHash(hashT)
+    console.log(freq)
 
-    for (let i = 0; i < sortedS.length; i++) {
-        if ((sortedS[i][0] !== sortedT[i][0]) 
-        || (sortedS[i][1] !== sortedT[i][1])
-        ) {
-            return false
-        }
+    for (f of freq) {
+        if (f !== 0) return false
     }
 
     return true
 };
 
-const addHash = (hash, value) => {
-    if (!hash[value]) {
-        hash[value] = 0
-    }
-
-    hash[value]++
-}
-
-const sortedHash = (hash) => {
-    return Object.entries(hash).sort((a, b) => {
-        return a[0].charCodeAt() - b[0].charCodeAt()
-    })
+const calcCharIdx = (char) => {
+    return char.charCodeAt() - 'a'.charCodeAt()
 }
