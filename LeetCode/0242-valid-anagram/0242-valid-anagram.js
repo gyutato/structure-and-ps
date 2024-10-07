@@ -16,7 +16,7 @@ var isAnagram = function(s, t) {
 
     const sortedS = sortedHash(hashS)
     const sortedT = sortedHash(hashT)
-    
+
     for (let i = 0; i < sortedS.length; i++) {
         if ((sortedS[i][0] !== sortedT[i][0]) 
         || (sortedS[i][1] !== sortedT[i][1])
@@ -37,10 +37,7 @@ const addHash = (hash, value) => {
 }
 
 const sortedHash = (hash) => {
-    const res = Object.entries(hash).sort((a, b) => {
+    return Object.entries(hash).sort((a, b) => {
         return a[0].charCodeAt() - b[0].charCodeAt()
     })
-
-    return res
-
 }
