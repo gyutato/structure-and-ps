@@ -13,8 +13,6 @@ var isAnagram = function(s, t) {
         freq[calcCharIdx(t[i])]--
     }
 
-    console.log(freq)
-
     for (f of freq) {
         if (f !== 0) return false
     }
