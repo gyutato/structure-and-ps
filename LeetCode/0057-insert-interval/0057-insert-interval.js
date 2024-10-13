@@ -4,24 +4,22 @@
  * @return {number[][]}
  */
 var insert = function(intervals, newInterval) {
-    let merged = [];
-    let i = 0;
-
-    while (i < intervals.length && intervals[i][1] < newInterval[0]) {
-        merged.push(intervals[i]);
-        i++;
+    const left = []
+    const right = []
+    // intervals 내부의 요소들을 순회한다
+    for (let i = 0; i < intervals.length; i++) {
+        const [currStart, currEnd] = intervals[i]
+        const [newStart, newEnd] = newInterval
+        // newInterval 을 merge 할 구간 전까지는 그대로 push 한다
+        if (currEnd < newStart) left.push(intervals[i])
+        // newInterval 을 merge 할 구간이 끝나면, 요소들을 그대로 push 한다
+        else if (newEnd < currStart) right.push(intervals[i])
+        // newInterval 을 merge 할 구간이 되면, merge 한다
+        else {
+            newInterval[0] = Math.min(currStart, newStart)
+            newInterval[1] = Math.max(currEnd, newEnd)
+        }
     }
 
-    while (i < intervals.length && intervals[i][0] <= newInterval[1]) {
-        newInterval = [Math.min(newInterval[0], intervals[i][0]), Math.max(newInterval[1], intervals[i][1])];
-        i++;
-    }
-    merged.push(newInterval);
-
-    while (i < intervals.length) {
-        merged.push(intervals[i]);
-        i++;
-    }
-
-    return merged;
+    return [...left, newInterval, ...right]
 };
