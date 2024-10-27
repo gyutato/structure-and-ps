@@ -10,7 +10,6 @@
  * @return {number}
  */
 var getDecimalValue = function(node) {
-    if (!node) return 0;
     let value = ""
 
     while (node) {
