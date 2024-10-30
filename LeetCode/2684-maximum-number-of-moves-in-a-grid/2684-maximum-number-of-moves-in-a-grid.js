@@ -3,60 +3,52 @@
  * @return {number}
  */
 var maxMoves = function(grid) {
-    // Get dimensions of the grid
-    const m = grid.length;    // number of rows
-    const n = grid[0].length; // number of columns
-    
-    // res will store the rightmost column we can reach
     let res = 0;
-    
-    // dp array stores the maximum number of moves possible to reach each cell
-    // in the current column we're processing
-    let dp = new Array(m).fill(0);
-    
-    // Iterate through each column from left to right (starting from column 1)
-    for (let j = 1; j < n; j++) {
-        // leftTop keeps track of the dp value from the cell above-left
-        let leftTop = 0;
-        // found indicates if we can reach any cell in current column
-        let found = false;
-        
-        // Iterate through each row in current column
-        for (let i = 0; i < m; i++) {
-            // cur will store the maximum moves to reach current cell
-            let cur = -1;
-            // Store dp[i] for next iteration's leftTop
-            let nxtLeftTop = dp[i];
-            
-            // Check move from top-left cell (if valid)
-            if (i - 1 >= 0 && leftTop !== -1 && grid[i][j] > grid[i - 1][j - 1]) {
-                cur = Math.max(cur, leftTop + 1);
+
+    // 행, 열 정보 저장
+    const col = grid[0].length
+    const row = grid.length
+
+    // 점화식: 각 열의 요소들에 대해, 이전으로부터의 최대 move 저장
+    let dp = new Array(row).fill(0);
+
+    // 각 열에 대해 반복 (왼->오)
+    for (let c = 1; c < col; c++) {
+        // 현재 열에서 접근가능한 셀이 있는지 확인 (없으면 더 이상 진행할 수 없음)
+        let moveable = false;
+        // dp 배열의 값을 덮어씌울 것이므로 이전 열의 dp[i - 1] 값을 저장하기 위한 변수 생성
+        let topLeft = 0;
+
+        for (let r = 0; r < row; r++) {
+            let maxMove = -1;
+            const current = grid[r][c]
+
+            // top-left 로부터 접근가능한지 확인
+            // 첫 번째 행이 아님 && top-left 셀이 접근가능한 셀임 && 현재 셀의 값이 더 큼
+            if (r >= 1 && topLeft !== -1 && current > grid[r - 1][c - 1]) {
+                maxMove = Math.max(maxMove, dp[r - 1] + 1)
             }
-            
-            // Check move from direct left cell (if valid)
-            if (dp[i] !== -1 && grid[i][j] > grid[i][j - 1]) {
-                cur = Math.max(cur, dp[i] + 1);
+
+            // left 로부터 접근가능한지 확인
+            if (dp[r] !== -1 && current > grid[r][c - 1]) {
+                maxMove = Math.max(maxMove, dp[r] + 1)
             }
-            
-            // Check move from bottom-left cell (if valid)
-            if (i + 1 < m && dp[i + 1] !== -1 && grid[i][j] > grid[i + 1][j - 1]) {
-                cur = Math.max(cur, dp[i + 1] + 1);
+
+            // bottom-left 로부터 접근가능한지 확인
+            if (r < row - 1 && dp[r + 1] !== -1 && current > grid[r + 1][c - 1]) {
+                maxMove = Math.max(maxMove, dp[r + 1] + 1)
             }
-            
-            // Update dp array for current cell
-            dp[i] = cur;
-            // Update found flag if we can reach current cell
-            found = found || (dp[i] !== -1);
-            // Update leftTop for next row's iteration
-            leftTop = nxtLeftTop;
+
+            // 현재 셀의 정보를 dp 배열에 업데이트
+            topLeft = dp[r]
+            dp[r] = maxMove
         }
-        
-        // If we can't reach any cell in current column, break
-        if (!found) break;
-        // Update result to current column if we can reach it
-        res = j;
+
+        // 현재 행에 접근 가능한 셀이 한 개라도 있는지 확인
+        console.log(JSON.stringify(dp))
+        moveable = dp.filter(move => move !== -1).length > 0
+        if (!moveable) break;
+        res = c
     }
-    
-    // Return the maximum number of moves possible
-    return res;
+    return res
 };
