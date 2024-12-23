@@ -9,6 +9,7 @@
  * @param {ListNode} head
  * @return {ListNode}
  */
+ 
 var deleteMiddle = function (head) {
   // base case 1. 주어진 노드 자체가 없을 때
   if (!head) return head;
