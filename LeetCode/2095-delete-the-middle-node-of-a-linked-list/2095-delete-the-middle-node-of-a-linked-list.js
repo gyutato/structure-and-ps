@@ -9,7 +9,12 @@
  * @param {ListNode} head
  * @return {ListNode}
  */
- 
+
+// 끝까지 간다 (길이 알아야 함)
+// 길이 정보를 어딘가에서 알고 있어야 한다
+// 빠져나오다가, Math.floor(n / 2) - 1 번째 node 를 만나면 ('만난다' 의 정의 필요 -> node.next 인지, current node 인지 등)
+// node.next = node.next.next
+
 var deleteMiddle = function (head) {
   // base case 1. 주어진 노드 자체가 없을 때
   if (!head) return head;
